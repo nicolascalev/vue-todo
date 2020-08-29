@@ -11,12 +11,7 @@ Vue.use(VueRouter)
     component: Home
   },
   {
-    path: '/vue-todo',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/vue-todo/about',
+    path: '/about',
     name: 'About',
     component: () => import('../views/About.vue')
   }
