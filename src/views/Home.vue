@@ -26,7 +26,7 @@
     <div class="w-100 pb-5 pt-1">
       <div class="container">
         <div class="row">
-          <v-post :title="card.title" :user="card.user" :body="card.body" :link="card.link"></v-post>
+          <v-post v-for="post in posts" :key="post.id" :title="post.title" :userId="post.userId" :body="_.truncate(post.body)" :id="post.id.toString()"></v-post>
         </div>
       </div>
     </div>
@@ -35,22 +35,33 @@
 
 <script>
 import VPost from "@/components/VPost";
-
+import Post from "@/api/api.service";
+import _ from 'lodash';
 export default {
   name: "Home",
   components: {
     VPost,
   },
 
+  created() {
+    this.findPosts();
+    this._ = _;
+  },
+
   data() {
     return {
-      card: {
-        title: 'Card title',
-        user: 'nicolas',
-        body: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.',
-        link: 'nolink',
+      posts: [],
+    };
+  },
+
+  methods: {
+    async findPosts() {
+      try {
+        this.posts = await Post.find("posts");
+      } catch (err) {
+        console.log(err);
       }
-    }
-  }
+    },
+  },
 };
 </script>
