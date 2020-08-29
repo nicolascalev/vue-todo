@@ -1,8 +1,8 @@
 <template>
   <div class="home">
-    <div class="w-100 py-5 bg-black">
+    <div class="w-100 py-5 bg-light">
       <div class="container text-center">
-        <h1 class="text-white font-weight-bold">Let's find posts!</h1>
+        <h1 class="font-weight-bold">Let's find posts!</h1>
         <p class="text-muted">Sorry about the color theme lol</p>
         <button class="btn btn-primary mr-2">Users</button>
         <button class="btn btn-secondary">Write</button>
@@ -17,7 +17,7 @@
         <div class="col-sm-12 col-lg-4">
           <div class="btn-group float-lg-right mt-2" role="group" aria-label="Basic example">
             <button type="button" class="btn btn-primary">View</button>
-            <button type="button" class="btn btn-secondary">Usage</button>
+            <button type="button" class="btn btn-secondary">Axios</button>
           </div>
         </div>
       </div>
@@ -37,14 +37,14 @@
           </div>
         </div>
         <div class="row">
-          <v-post
-            v-for="post in filterResult"
-            :key="post.id"
-            :title="post.title"
-            :userId="post.userId"
-            :body="_.truncate(post.body)"
-            :id="post.id.toString()"
-          ></v-post>
+          <div class="col-lg-4 mb-3" v-for="post in filterResult" :key="post.id">
+            <v-post
+              :title="post.title"
+              :userId="post.userId"
+              :body="_.truncate(post.body)"
+              :id="post.id.toString()"
+            ></v-post>
+          </div>
         </div>
       </div>
     </div>
@@ -85,11 +85,11 @@ export default {
     },
 
     filterPosts() {
-      var regex = new RegExp(this.filter);
+      var regex = new RegExp(this.filter, 'i');
       var filtered = _.map(this.posts, (post) => {
         if (regex.test(post.title)) return post;
       });
-      this.filterResult = _.filter(filtered, post => post != undefined)
+      this.filterResult = _.filter(filtered, (post) => post != undefined);
     },
   },
 };
