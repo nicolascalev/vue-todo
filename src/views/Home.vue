@@ -10,12 +10,12 @@
     </div>
     <div class="container py-5">
       <div class="row">
-        <div class="col-8 text-left">
+        <div class="col-sm-12 col-lg-8 text-left">
           <h2>JSON placeholder</h2>
           <p class="text-muted">This posts come from a fake api</p>
         </div>
-        <div class="col-4">
-          <div class="btn-group float-right mt-2" role="group" aria-label="Basic example">
+        <div class="col-sm-12 col-lg-4">
+          <div class="btn-group float-lg-right mt-2" role="group" aria-label="Basic example">
             <button type="button" class="btn btn-primary">View</button>
             <button type="button" class="btn btn-secondary">Usage</button>
           </div>
@@ -25,8 +25,26 @@
 
     <div class="w-100 pb-5 pt-1">
       <div class="container">
+        <div class="row pb-4">
+          <div class="col-12">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Filtrar"
+              @input="filterPosts"
+              v-model="filter"
+            />
+          </div>
+        </div>
         <div class="row">
-          <v-post v-for="post in posts" :key="post.id" :title="post.title" :userId="post.userId" :body="_.truncate(post.body)" :id="post.id.toString()"></v-post>
+          <v-post
+            v-for="post in filterResult"
+            :key="post.id"
+            :title="post.title"
+            :userId="post.userId"
+            :body="_.truncate(post.body)"
+            :id="post.id.toString()"
+          ></v-post>
         </div>
       </div>
     </div>
@@ -36,7 +54,7 @@
 <script>
 import VPost from "@/components/VPost";
 import Post from "@/api/api.service";
-import _ from 'lodash';
+import _ from "lodash";
 export default {
   name: "Home",
   components: {
@@ -51,6 +69,8 @@ export default {
   data() {
     return {
       posts: [],
+      filterResult: [],
+      filter: "",
     };
   },
 
@@ -58,9 +78,18 @@ export default {
     async findPosts() {
       try {
         this.posts = await Post.find("posts");
+        this.filterResult = this.posts;
       } catch (err) {
         console.log(err);
       }
+    },
+
+    filterPosts() {
+      var regex = new RegExp(this.filter);
+      var filtered = _.map(this.posts, (post) => {
+        if (regex.test(post.title)) return post;
+      });
+      this.filterResult = _.filter(filtered, post => post != undefined)
     },
   },
 };

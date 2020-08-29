@@ -1,6 +1,6 @@
 /* eslint-disable vue/comment-directive */
 <template>
-  <div>
+  <div class="sticky-top">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <router-link class="navbar-brand" to="/">Home</router-link>
       <button
