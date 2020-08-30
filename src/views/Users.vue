@@ -55,7 +55,7 @@
 import User from '@/api/api.service'
 import VUser from '@/components/VUser'
 import _ from 'lodash'
-import faker from 'faker'
+import { image } from 'faker'
 
 export default {
   name: "Users",
@@ -79,7 +79,7 @@ export default {
     async findUsers() {
       var users = await User.find('users');
       _.map(users, user => {
-        user.avatar = faker.image.avatar()
+        user.avatar = image.avatar()
       })
       this.users = users;
       this.filterResult = this.users;
