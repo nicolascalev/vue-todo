@@ -4,6 +4,10 @@ var api = axios.create({
     baseURL: 'https://jsonplaceholder.typicode.com'
 })
 
+// var api = axios.create({
+//     baseURL: 'https://my-json-server.typicode.com/nicolascalev/jsonserver-posts'
+// })
+
 export default {
     async find(model) {
         try {

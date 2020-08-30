@@ -4,8 +4,8 @@
       <div class="container text-center">
         <h1 class="font-weight-bold">Let's find posts!</h1>
         <p class="text-muted">Sorry about the color theme lol</p>
-        <button class="btn btn-primary mr-2">Users</button>
-        <button class="btn btn-secondary">Write</button>
+        <router-link class="btn btn-primary mr-2" to="/users">Users</router-link>
+        <button class="btn btn-dark">Write</button>
       </div>
     </div>
     <div class="container py-5">
@@ -17,7 +17,7 @@
         <div class="col-sm-12 col-lg-4">
           <div class="btn-group float-lg-right mt-2" role="group" aria-label="Basic example">
             <button type="button" class="btn btn-primary">View</button>
-            <button type="button" class="btn btn-secondary">Axios</button>
+            <button type="button" class="btn btn-dark">Axios</button>
           </div>
         </div>
       </div>
