@@ -4,7 +4,7 @@
       <h5 class="card-title">{{ title }}</h5>
       <h6 class="card-subtitle mb-2 text-muted">@{{ userId }}</h6>
       <p class="card-text">{{ body }}</p>
-      <router-link class="card-link" :to="id">See more</router-link>
+      <a class="text-primary" data-toggle="modal" data-target="#exampleModal" @click="clickSelectPost">See more</a>
     </div>
   </div>
 </template>
@@ -14,5 +14,11 @@ export default {
   name: "VPost",
 
   props: ["title", "userId", "body", "id"],
+
+  methods: {
+    clickSelectPost() {
+      this.$emit('selected', this.id)
+    }
+  }
 };
 </script>

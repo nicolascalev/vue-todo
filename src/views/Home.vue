@@ -43,22 +43,47 @@
               :userId="post.userId"
               :body="_.truncate(post.body)"
               :id="post.id.toString()"
+              @selected="selectPost"
             ></v-post>
           </div>
         </div>
       </div>
     </div>
+
+    <v-modal :title="selected.title">
+      <p class="text-primary font-weight-bold">Author</p>
+      <p>
+        {{ selected.user.name }}
+        <span class="text-muted">@{{ selected.user.username }}</span>
+      </p>
+      <p>{{ selected.user.email }}</p>
+      <hr class="mb-5" />
+      <p>{{ selected.body }}</p>
+      <hr class="mt-5" />
+      <p class="text-primary font-weight-bold">
+        Comments
+        <span class="badge badge-primary">{{ selected.comments.length }}</span>
+      </p>
+      <div v-for="com in selected.comments" :key="com.id">
+        <p>{{ com.body }}</p>
+        <p class="text-muted">{{ com.email }}</p>
+        <hr>
+      </div>
+      // TODO: add comment input
+    </v-modal>
   </div>
 </template>
 
 <script>
 import VPost from "@/components/VPost";
+import VModal from "@/components/VModal";
 import Post from "@/api/api.service";
 import _ from "lodash";
 export default {
   name: "Home",
   components: {
     VPost,
+    VModal,
   },
 
   created() {
@@ -71,6 +96,10 @@ export default {
       posts: [],
       filterResult: [],
       filter: "",
+      selected: {
+        user: {},
+        comments: [],
+      },
     };
   },
 
@@ -85,11 +114,24 @@ export default {
     },
 
     filterPosts() {
-      var regex = new RegExp(this.filter, 'i');
+      var regex = new RegExp(this.filter, "i");
       var filtered = _.map(this.posts, (post) => {
         if (regex.test(post.title)) return post;
       });
       this.filterResult = _.filter(filtered, (post) => post != undefined);
+    },
+
+    async selectPost(idPost) {
+      var select = this.posts.find((post) => post.id == idPost);
+      var user = await Post.findOne("users", select.userId);
+      var comments = await Post.findPopulate(
+        "post",
+        select.userId,
+        "comments"
+      );
+      select.user = user;
+      select.comments = comments;
+      this.selected = select;
     },
   },
 };
