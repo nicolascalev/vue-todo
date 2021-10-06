@@ -1,5 +1,9 @@
 # vue-todo
 
+## Disclaimer
+
+This project isn't serious and it is not finished. It was created just to practice basic vue js features and fetch data from a fake api 
+
 ## Project setup
 ```
 npm install
